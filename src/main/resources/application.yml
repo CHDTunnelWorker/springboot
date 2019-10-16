@@ -10,4 +10,21 @@ spring:
     password: dandy
     driver-class-name: com.mysql.jdbc.Driver
 
+mybatis:
+  #映射文件通配
+  mapper-locations: classpath:mapper/*.xml
+  #扫描实体类的别名配置,与注解@Alias搭配使用
+  type-aliases-package: com.laohu.springboot.mybatistran.pojo
+  #typehandler扫描路径
+  type-handlers-package: com.laohu.springboot.mybatistran.typehandler
+  #mybatis配置文件路径
+  #config-location: mybatis/mybatis-config.xml
 
+#日志配置
+logging:
+  level:
+    root: debug
+    org:
+      springframework: debug
+      org:
+        mybatis: debug

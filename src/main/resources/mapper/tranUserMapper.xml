@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.laohu.springboot.mybatistran.dao.UserDao">
+    <!--新增用户(使用数据库自动生成的机制回填主键id值)-->
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
+      insert into tran_user(user_name,note) values (#{userName},#{note})
+    </insert>
+    <!--根据主键查询用户-->
+    <select id="getTranUser" resultType="tranUser" parameterType="long">
+      select id,user_naem as userName,note from tran_user where id = #{id}
+    </select>
+</mapper>
