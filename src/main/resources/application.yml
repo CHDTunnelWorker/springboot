@@ -9,6 +9,17 @@ spring:
     username: root
     password: dandy
     driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    database: 0
+    host: 192.168.206.128
+    port: 6379
+    password: 123456
+    timeout: 1000
+    jedis:
+      pool:
+        max-idle: 30
+        max-active: 50
+        max-wait: 2000
 
 mybatis:
   #映射文件通配
@@ -20,11 +31,12 @@ mybatis:
   #mybatis配置文件路径
   #config-location: mybatis/mybatis-config.xml
 
+
 #日志配置
 logging:
   level:
-    root: debug
+    root: info
     org:
-      springframework: debug
+      springframework: info
       org:
         mybatis: debug
