@@ -6,6 +6,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -61,5 +63,27 @@ public class SpringbootApplication {
     @PostConstruct
     public void viewTransactionManager(){
         System.out.println(transactionManager.getClass().getName());
+    }
+
+    /**
+     * 7.2springboot整合redis
+     */
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /**
+     * 定义自定义后初始化方法
+     */
+    @PostConstruct
+    public void init(){
+        initRedisTemplate();
+    }
+    /**
+     * 设置redistemplate的序列化器
+     */
+    private void initRedisTemplate(){
+        RedisSerializer stringSerializer = redisTemplate.getStringSerializer();
+        redisTemplate.setKeySerializer(stringSerializer);
+        redisTemplate.setHashKeySerializer(stringSerializer);
     }
 }

@@ -17,7 +17,12 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author: Holland
  * @create: 2019-10-17 10:42
  **/
-@Configuration
+
+/**
+ * @Configuration
+ * 7.1实践类(简单实践)
+ */
+
 public class RedisConfig {
 
     private RedisConnectionFactory connectionFactory = null;

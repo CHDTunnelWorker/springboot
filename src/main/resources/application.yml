@@ -17,9 +17,10 @@ spring:
     timeout: 1000
     jedis:
       pool:
-        max-idle: 30
-        max-active: 50
+        max-idle: 10
+        max-active: 10
         max-wait: 2000
+        min-idle: 5
 
 mybatis:
   #映射文件通配
