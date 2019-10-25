@@ -1,10 +1,12 @@
 package com.laohu.springboot.redis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import redis.clients.jedis.Jedis;
 
@@ -186,6 +188,85 @@ public class RedisController {
         //返回结果
         Map<String,Object> map = new HashMap<>();
         map.put("success",true);
+        map.put("setRange",setRange);
+        map.put("setScore",setScore);
+        map.put("setLex",setLex);
+        map.put("reverseSet",reverseSet);
+        map.put("rangeSet",rangeSet);
+        map.put("scoreSet",scoreSet);
         return map;
+    }
+
+    /**
+     * 测试redis的事务机制
+     * @return
+     */
+    @RequestMapping("/multi")
+    @ResponseBody
+    public Map<String,Object> testMulti() {
+        redisTemplate.opsForValue().set("key1", "value1");
+        List list = (List) redisTemplate.execute(new SessionCallback() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException {
+                //设置要监控key1
+                operations.watch("key1");
+                //开启事务，在exec命令执行前，全部只是进入队列
+                operations.multi();
+                operations.opsForValue().set("key2", "value2");
+                //①
+                operations.opsForValue().increment("key1",1);
+                //获取值将为null，因为redis只是把命令放入队列
+                Object value2 = operations.opsForValue().get("key2");
+                System.out.println("命令在队列中，所以value为null[" + value2 + "]");
+                operations.opsForValue().set("key3", "value3");
+                Object value3 = operations.opsForValue().get("key3");
+                System.out.println("命令在队列中，所以value为null[" + value3 + "]");
+                //执行exec命令，将先判别key1是否在监控后被修改过，如果是，则不执行任务，否则就执行任务 ②
+                return operations.exec();
+            }
+        });
+        System.out.println(list);
+        Map<String,Object> map = new HashMap<>();
+        map.put("success",true);
+        return map;
+    }
+
+    /**
+     * 测试redis流水线
+     * @return
+     */
+    @RequestMapping("/pipeline")
+    @ResponseBody
+    public Map<String,Object> testPipeline(){
+        long start = System.currentTimeMillis();
+        redisTemplate.executePipelined(new SessionCallback() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException {
+                Long start = System.currentTimeMillis();
+                for(int i = 1;i <= 100000;i++){
+                    operations.opsForValue().set("pipeline_"+i,"value_"+i);
+                    String value = (String) operations.opsForValue().get("pipeline_"+i);
+                    if(i == 100000){
+                        System.out.println("命令只是进入队列，所以值为空【"+value+"】");
+                    }
+                }
+                return null;
+            }
+        });
+        long end = System.currentTimeMillis();
+        System.out.println("耗时："+(end-start)+"毫秒。");
+        Map<String,Object> map = new HashMap<>();
+        map.put("success",true);
+        return map;
+    }
+
+    /**
+     * 测试redis的发布和订阅
+     * @param msg
+     */
+    @RequestMapping("/publish")
+    @ResponseBody
+    public void testPublish(@RequestParam String msg){
+        redisTemplate.convertAndSend("topic1",msg);
     }
 }
