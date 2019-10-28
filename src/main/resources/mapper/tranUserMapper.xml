@@ -7,8 +7,43 @@
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id">
       insert into tran_user(user_name,note) values (#{userName},#{note})
     </insert>
+
+    <!--修改用户-->
+    <update id="updateUser">
+      update tran_user
+      <set>
+          <if test="userName != null">
+              user_name = #{userName}
+          </if>,
+          <if test="note != null">
+              note = #{note}
+          </if>>
+      </set>
+      where id = #{id}
+    </update>
+
+    <!--删除用户-->
+    <delete id="deleteUser">
+        delete from tran_user where id = #{id}
+    </delete>
+
     <!--根据主键查询用户-->
     <select id="getTranUser" resultType="tranUser" parameterType="long">
-      select id,user_naem as userName,note from tran_user where id = #{id}
+      select id,user_name as userName,note from tran_user where id = #{id}
     </select>
+
+    <!--查询用户,指定mybatis的参数名称-->
+    <select id="findUsers" resultType="tranUser">
+      select id,user_name,note from tran_user
+      <where>
+          <if test="userName != null">
+              and user_name = #{userName}
+          </if>
+          <if test="note != null">
+              and note = #{note}
+          </if>>
+      </where>
+    </select>
+
+
 </mapper>

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
 /**
  * @program: springboot
  * @description: 数据库事务测试用户类
@@ -13,7 +15,8 @@ import org.apache.ibatis.type.Alias;
 @Data
 @Alias("tranUser")
 @Accessors(chain = true)
-public class TranUser {
+public class TranUser implements Serializable {
+    private static final long serialVersionUID = 3133649191184365318L;
     private Long id;
     private String userName;
     private String note;

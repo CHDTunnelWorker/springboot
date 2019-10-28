@@ -1,9 +1,14 @@
 package com.laohu.springboot.redis.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -268,5 +273,52 @@ public class RedisController {
     @ResponseBody
     public void testPublish(@RequestParam String msg){
         redisTemplate.convertAndSend("topic1",msg);
+    }
+
+    /**
+     * 测试执行简易的Lua脚本(利用redis提供的redisScript执行)
+     * @return
+     */
+    @RequestMapping("/lua")
+    @ResponseBody
+    public Map<String,Object> testLua(){
+        DefaultRedisScript<String> rs = new DefaultRedisScript<>();
+        //设定脚本内容
+        rs.setScriptText("return 'Hello Redis Lua !'");
+        //设定脚本返回值的类型.注意:如果没有设置,则spring不会返回结果
+        rs.setResultType(String.class);
+        //获取redis的序列化器(字符串序列化器)
+        RedisSerializer stringSerializer = redisTemplate.getStringSerializer();
+        //执行redis脚本(第一个参数为rs对象,第二个和第三个分别是参数序列化器和结果序列化器,第四个参数为redis中的键值集合)
+        String str = (String) redisTemplate.execute(rs,stringSerializer,stringSerializer,null);
+        //响应结果
+        Map<String,Object> map = new HashMap<>();
+        map.put("str",str);
+        return map;
+    }
+
+    /**
+     * 测试执行带参数的lua脚本(用来判断两个字符串是否相同)
+     */
+    @RequestMapping("/lua2")
+    @ResponseBody
+    public Map<String,Object> testArgsLua(String key1,String key2,String arg1,String arg2){
+        //定义lua脚本(lua脚本文件在script/testLua.lua)
+        //定义rs对象,设置lua脚本文件的路径属性和返回值
+        DefaultRedisScript<Long> rs = new DefaultRedisScript<>();
+        rs.setScriptSource(new ResourceScriptSource(new ClassPathResource("script/testLua.lua")));
+        rs.setResultType(Long.class);
+        //获取字符串序列化器
+        RedisSerializer stringSerializer = redisTemplate.getStringSerializer();
+        //将键值封装到集合中(rs执行脚本需要的参数之一,注意key值得存放顺序)
+        ArrayList<String> keyList = new ArrayList<>();
+        keyList.add(key1);
+        keyList.add(key2);
+        //传递参数值,执行lua脚本
+        Long result = (Long) redisTemplate.execute(rs, stringSerializer, stringSerializer, keyList, arg1, arg2);
+        //返回结果
+        Map<String,Object> map = new HashMap<>();
+        map.put("result",result);
+        return map;
     }
 }

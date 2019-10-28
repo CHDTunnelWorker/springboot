@@ -1,18 +1,16 @@
 package com.laohu.springboot;
 
-import com.laohu.springboot.mybatistran.plugin.MyPlugin;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.annotation.PostConstruct;
-import java.util.Properties;
 
 @SpringBootApplication
 //定义mybatis扫描的包
@@ -22,6 +20,8 @@ import java.util.Properties;
         //限定扫描的注解接口(不常用)
         annotationClass = Repository.class
 )
+//开启spring的缓存机制
+@EnableCaching
 public class SpringbootApplication {
 
     public static void main(String[] args) {

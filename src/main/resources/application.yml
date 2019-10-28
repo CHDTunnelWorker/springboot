@@ -9,6 +9,10 @@ spring:
     username: root
     password: dandy
     driver-class-name: com.mysql.jdbc.Driver
+    #设置隔离级别为读写提交
+    tomcat:
+      default-transaction-isolation: 2
+
   redis:
     database: 0
     host: 192.168.206.128
@@ -21,9 +25,22 @@ spring:
         max-active: 10
         max-wait: 2000
         min-idle: 5
+  #配置redis缓存管理器(RedisCacheManager),第一种自定义redis缓存管理器的方法,第二种是通过配置类实现自定义
+  #cache:
+    #type: redis
+    #cache-names: redisCache
+    #redis:
+      #禁用redis缓存前缀
+      #use-key-prefix: false
+      #允许保存空值
+      #cache-null-values: true
+      #自定义前缀
+      #key-prefix:
+      #定义超时时间
+      #time-to-live: 600000
 
 mybatis:
-  #映射文件通配
+  #映射文件通配op
   mapper-locations: classpath:mapper/*.xml
   #扫描实体类的别名配置,与注解@Alias搭配使用
   type-aliases-package: com.laohu.springboot.mybatistran.pojo
@@ -31,6 +48,8 @@ mybatis:
   type-handlers-package: com.laohu.springboot.mybatistran.typehandler
   #mybatis配置文件路径
   #config-location: mybatis/mybatis-config.xml
+  configuration:
+    map-underscore-to-camel-case: true
 
 
 #日志配置
