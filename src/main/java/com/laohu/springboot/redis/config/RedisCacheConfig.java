@@ -30,18 +30,18 @@ public class RedisCacheConfig {
      * 自定义redis缓存管理器
      * @return
      */
-    @Bean("/redisCacheManager")
+    @Bean("redisCache")
     public RedisCacheManager initRedisCacheManager(){
         //redis加锁的写入器
         RedisCacheWriter writer = RedisCacheWriter.lockingRedisCacheWriter(connectionFactory);
         //启动redis默认的缓存配置
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
         //设置jdk序列化器
-        config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer()));
+        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer()));
         //设置禁用前缀
-        config.disableKeyPrefix();
+        config = config.disableKeyPrefix();
         //设置十分钟超时
-        config.entryTtl(Duration.ofMinutes(10));
+        config = config.entryTtl(Duration.ofMinutes(10));
         //创建redis缓存管理器
         RedisCacheManager redisCacheManager = new RedisCacheManager(writer, config);
         return redisCacheManager;
