@@ -1,17 +1,10 @@
 package com.laohu.springboot;
 
-import com.laohu.springboot.AOP.appointProgramming.HelloService;
-import com.laohu.springboot.AOP.appointProgramming.HelloServiceImpl;
-import com.laohu.springboot.AOP.appointProgramming.MyInterceptor;
-import com.laohu.springboot.AOP.appointProgramming.ProxyBean;
 import com.laohu.springboot.redis.config.RedisConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
