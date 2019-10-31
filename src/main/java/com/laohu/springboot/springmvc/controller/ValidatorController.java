@@ -7,6 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -23,6 +24,16 @@ import java.util.Map;
 @Controller
 public class ValidatorController {
 
+
+    /**
+     * @Description: 测试使用java自带以及Hibenate支持的验证注解
+     * @param: [vp, errors]
+     * @return: java.util.Map<java.lang.String,java.lang.Object>
+     * @auther: Holland
+     * @date: 2019/10/31 10:52
+     */
+    @RequestMapping("/annoValid")
+    @ResponseBody
     public Map<String,Object> validatorPojo(
             @Valid @RequestBody ValidatorPojo vp, Errors errors
     )
@@ -39,9 +50,11 @@ public class ValidatorController {
                 FieldError fe = (FieldError) oe;
                 //获取错误验证字段名
                 key = fe.getField();
+                System.out.println(key+"字段错误");
             } else {
                 //非字段错误,获取验证对象的名称
                 key = oe.getObjectName();
+                System.out.println(key+"非字段错误");
             }
             //获取错误信息
             msg = oe.getDefaultMessage();
@@ -49,4 +62,5 @@ public class ValidatorController {
         }
         return errMap;
     }
+
 }

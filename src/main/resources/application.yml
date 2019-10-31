@@ -39,6 +39,16 @@ spring:
       #定义超时时间
       #time-to-live: 600000
 
+
+  servlet:
+    multipart:
+      #mvc指定上传文件的文件夹位置
+      location: e:/springboot
+      #mvc指定上传文件单个文件的最大值
+      max-file-size: 5MB
+      #mvc指定上传文件的所有文件大小的最大值
+      max-request-size: 20MB
+
 mybatis:
   #映射文件通配op
   mapper-locations: classpath:mapper/*.xml

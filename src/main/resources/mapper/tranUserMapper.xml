@@ -37,11 +37,11 @@
       select id,user_name,note from tran_user
       <where>
           <if test="userName != null">
-              and user_name = #{userName}
+              and user_name like concat('%',#{userName},'%')
           </if>
           <if test="note != null">
-              and note = #{note}
-          </if>>
+              and note like concat('%',#{note},'%')
+          </if>
       </where>
     </select>
 
