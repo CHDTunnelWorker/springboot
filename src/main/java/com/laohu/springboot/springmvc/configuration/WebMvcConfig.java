@@ -34,19 +34,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 注册多个自定义拦截器,并制定拦截匹配模式
      * @param registry
      */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //注册拦截器到MVC机制,然后会返回一个拦截器注册
-        InterceptorRegistration ir = registry.addInterceptor(new MultiInterceptor1());
-        //指定拦截匹配模式,限制拦截器拦截请求
-        ir.addPathPatterns("/interceptor/*");
-        //注册拦截器到MVC机制,然后会返回一个拦截器注册
-        InterceptorRegistration ir2 = registry.addInterceptor(new MultiInterceptor2());
-        //指定拦截匹配模式,限制拦截器拦截请求
-        ir.addPathPatterns("/interceptor/*");
-        //注册拦截器到MVC机制,然后会返回一个拦截器注册
-        InterceptorRegistration ir3 = registry.addInterceptor(new MultiInterceptor3());
-        //指定拦截匹配模式,限制拦截器拦截请求
-        ir.addPathPatterns("/interceptor/*");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        //注册拦截器到MVC机制,然后会返回一个拦截器注册
+//        InterceptorRegistration ir = registry.addInterceptor(new MultiInterceptor1());
+//        //指定拦截匹配模式,限制拦截器拦截请求
+//        ir.addPathPatterns("/interceptor/*");
+//        //注册拦截器到MVC机制,然后会返回一个拦截器注册
+//        InterceptorRegistration ir2 = registry.addInterceptor(new MultiInterceptor2());
+//        //指定拦截匹配模式,限制拦截器拦截请求
+//        ir.addPathPatterns("/interceptor/*");
+//        //注册拦截器到MVC机制,然后会返回一个拦截器注册
+//        InterceptorRegistration ir3 = registry.addInterceptor(new MultiInterceptor3());
+//        //指定拦截匹配模式,限制拦截器拦截请求
+//        ir.addPathPatterns("/interceptor/*");
+//    }
 }

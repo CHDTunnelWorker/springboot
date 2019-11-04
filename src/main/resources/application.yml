@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: springboot
+
   datasource:
     url: jdbc:mysql://localhost:3306/house?characterEncoding=UTF-8&useSSL=false&allowMultiQueries=true
     username: root
@@ -48,6 +49,11 @@ spring:
       max-file-size: 5MB
       #mvc指定上传文件的所有文件大小的最大值
       max-request-size: 20MB
+
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
 
 mybatis:
   #映射文件通配op
