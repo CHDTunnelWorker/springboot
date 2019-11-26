@@ -76,3 +76,7 @@ logging:
       springframework: info
       org:
         mybatis: debug
+
+#参数配置
+param:
+  secret: uvwxyz

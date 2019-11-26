@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -22,6 +23,8 @@ import javax.annotation.PostConstruct;
 )
 //开启spring的缓存机制
 @EnableCaching
+//开启springsecurity
+@EnableWebSecurity
 public class SpringbootApplication {
 
     public static void main(String[] args) {
