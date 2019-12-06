@@ -39,6 +39,15 @@ spring:
       #key-prefix:
       #定义超时时间
       #time-to-live: 600000
+  rabbitmq:
+    host: 114.116.182.128
+    port: 5672
+    username: admin
+    password: 123456
+    publisher-confirms: true #是否确认发送消息已经被成功消费,如果成功则会根据设置的类进行回调执行相关逻辑
+    queue:
+      msg: spring-boot-queue-msg
+      user: spring-boot-queue-user
 
 
   servlet:

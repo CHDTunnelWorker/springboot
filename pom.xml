@@ -29,10 +29,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--spring security 依赖-->
+        <!--引入spring security-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.0.4.RELEASE</version>
         </dependency>
         <!-- lombok依赖 -->
         <dependency>
@@ -84,6 +85,16 @@
             <artifactId>itextpdf</artifactId>
             <version>5.5.12</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcmail-jdk14</artifactId>
+            <version>1.64</version>
+        </dependency>
+        <dependency>
+            <groupId>bouncycastle</groupId>
+            <artifactId>bcprov-jdk14</artifactId>
+            <version>138</version>
+        </dependency>
 
         <!--添加jsp支持-->
         <dependency>
@@ -98,11 +109,10 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
-
-        <!--引入spring security-->
+        <!--rabbitMQ-->
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
 
